@@ -1,0 +1,34 @@
+﻿
+// Type: TwoBrainsGames.Snails.ToolObjects.ToolVitamin
+// Assembly: TwoBrainsGames.Snails, Version=1.0.4923.37504, Culture=neutral, PublicKeyToken=null
+// MVID: B19A8606-1885-4B3A-BBAA-3363A0A3FD71
+// Modded by [M]edia[E]xplorer
+
+using Microsoft.Xna.Framework;
+using TwoBrainsGames.Snails.StageObjects;
+using TwoBrainsGames.Snails.Stages;
+
+
+namespace TwoBrainsGames.Snails.ToolObjects
+{
+  public class ToolVitamin : ToolObject
+  {
+    public const string ID = "TOOL_VITAMIN";
+
+    public ToolVitamin()
+      : base(ToolObjectType.Vitamin)
+    {
+    }
+
+    public override void Action(Vector2 position)
+    {
+      if (this.Quantity <= 0)
+        return;
+      base.Action(position);
+      StageObject stageObject = Stage.CurrentStage.StageData.GetObject("VITAMIN");
+      stageObject.Position = position;
+      stageObject.UpdateBoundingBox();
+      Stage.CurrentStage.AddObjectInRuntime(stageObject);
+    }
+  }
+}
