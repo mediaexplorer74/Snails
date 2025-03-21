@@ -7,6 +7,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using TwoBrainsGames.BrainEngine.Input;
@@ -49,7 +50,8 @@ namespace TwoBrainsGames.BrainEngine.UI.Screens
     {
       get
       {
-        return this.LastScreenIdx >= 0 && this.LastScreenIdx < this._activeScreens.Count ? this._activeScreens[this.LastScreenIdx] : (Screen) null;
+        return this.LastScreenIdx >= 0 && this.LastScreenIdx < this._activeScreens.Count 
+                    ? this._activeScreens[this.LastScreenIdx] : (Screen) null;
       }
     }
 
@@ -117,8 +119,12 @@ namespace TwoBrainsGames.BrainEngine.UI.Screens
       foreach (ScreensData.ScreenData screenData in this._screensData._groupsData[groupId].ScreensData)
       {
         Screen screen = this._game.CreateScreen(this, screenData.ScreenId);
+
         if (screen == null)
-          throw new BrainException("Could not create screen with Id [" + screenData.ScreenId + "]. Please check overriden method YourGame.CreateScreen()");
+          throw new BrainException(
+              "Could not create screen with Id [" + screenData.ScreenId + "]." +
+              " Please check overriden method YourGame.CreateScreen()");
+
         screen._id = screenData.ScreenId;
         screen._skipTime = screenData.SkipTime;
         screen.Initialize(this);
@@ -367,14 +373,24 @@ namespace TwoBrainsGames.BrainEngine.UI.Screens
           break;
         case ScreenNavigator.ScreenActionType.NavigateTo:
           Screen screen2 = this.FindScreen(action._screenId);
-          if (screen2 == null)
-            throw new BrainException("Could not find screen with Id " + action._screenId);
-          if (this.ActiveScreen != null)
-            this.ActiveScreen.OnClose();
-          this._activeScreens.Clear();
-          this._activeScreens.Add(screen2);
-          screen2.Start();
-          screen2.Update(gameTime);
+            if (screen2 == null)
+            {
+                Debug.WriteLine("Could not find screen with Id " + action._screenId);
+
+               // RnD
+                throw new BrainException(
+                 "Could not find screen with Id " + action._screenId);
+            
+            }
+            else
+            { 
+                if (this.ActiveScreen != null)
+                this.ActiveScreen.OnClose();
+                this._activeScreens.Clear();
+                this._activeScreens.Add(screen2);
+                screen2.Start();
+                screen2.Update(gameTime);
+            }
           break;
         case ScreenNavigator.ScreenActionType.GroupLoad:
           if (!((string) action._param != this._currentGroupId))

@@ -19,7 +19,8 @@ using TwoBrainsGames.Snails.Stages;
 
 namespace TwoBrainsGames.Snails.Screens.ThemeSelection
 {
-  internal class ThemeSelectionScreen(ScreenNavigator navigator) : SnailsScreen(navigator, ScreenType.ThemeSelection)
+  internal class ThemeSelectionScreen(ScreenNavigator navigator)
+        : SnailsScreen(navigator, ScreenType.ThemeSelection)
   {
     public const int THEME_COUNT = 4;
     private UIStagesPanel _stagesPanel;
@@ -47,7 +48,8 @@ namespace TwoBrainsGames.Snails.Screens.ThemeSelection
       this._title.ParentAlignment = AlignModes.Horizontaly;
       this._title.BoardSize = UISnailsMenuTitle.TitleSize.Big;
       this._title.Position = new Vector2(0.0f, 500f);
-      this._title.ShowEffect = (TransformEffectBase) new SquashEffect(0.85f, 4f, 0.04f, this.BlendColor, new Vector2(1f, 1f));
+      this._title.ShowEffect = (TransformEffectBase) new SquashEffect(0.85f, 4f, 0.04f,
+          this.BlendColor, new Vector2(1f, 1f));
       this.Controls.Add((UIControl) this._title);
       this._themesPanel = new UIThemesPanel((UIScreen) this);
       this._themesPanel.Name = "_themesPanel";
@@ -167,8 +169,10 @@ namespace TwoBrainsGames.Snails.Screens.ThemeSelection
       {
         case ThemeSelectionScreen.ScreenState.ThemeSelection:
           this.DisableInput();
-          this.Navigator.GlobalCache.Set("MAIN_SCREEN_STARTUP_MODE", (object) MainMenuScreen.StartupType.TitleAndMenuVisible);
-          this.NavigateTo("MainMenu", (Transition) ScreenTransitions.LeafsClosing, (Transition) ScreenTransitions.LeafsOpening);
+          this.Navigator.GlobalCache.Set("MAIN_SCREEN_STARTUP_MODE", 
+              (object) MainMenuScreen.StartupType.TitleAndMenuVisible);
+          this.NavigateTo("MainMenu", (Transition) ScreenTransitions.LeafsClosing,
+              (Transition) ScreenTransitions.LeafsOpening);
           break;
         case ThemeSelectionScreen.ScreenState.StageSelection:
           this.DisableInput();
@@ -227,11 +231,14 @@ namespace TwoBrainsGames.Snails.Screens.ThemeSelection
       this.DisableInput();
       this._stagesPanel.RaiseStageLeaveEvent = false;
       UIStage uiStage = (UIStage) sender;
-      if (uiStage.Locked && BrainGame.IsTrial && !uiStage.LevelStageInfo.AvailableInDemo && Game1.GameSettings.WithAppStore)
-      {
-        this.NavigateToPurchase();
-      }
-      else
+      
+      //RnD
+      //if (uiStage.Locked && BrainGame.IsTrial && !uiStage.LevelStageInfo.AvailableInDemo
+      //          && Game1.GameSettings.WithAppStore)
+      //{
+      //  this.NavigateToPurchase();
+      //}
+      //else
       {
         if (uiStage.Locked)
           return;

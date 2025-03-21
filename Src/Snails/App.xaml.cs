@@ -32,7 +32,7 @@ namespace GameManager
         }
 
        
-        protected override async void OnLaunched(LaunchActivatedEventArgs e)
+        protected override /*async*/ void OnLaunched(LaunchActivatedEventArgs e)
         {
             
             // **********************************************************************************         

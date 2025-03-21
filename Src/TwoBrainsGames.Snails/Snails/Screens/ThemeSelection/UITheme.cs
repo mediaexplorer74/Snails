@@ -291,7 +291,7 @@ namespace TwoBrainsGames.Snails.Screens.ThemeSelection
     public void Refresh()
     {
       this.Locked = !Game1.ProfilesManager.CurrentProfile.PlayerStats.IsThemeUnlocked(this.ThemeId);
-      this.LockedInDemo = Levels._instance.IsLockedInDemo(this.ThemeId) && BrainGame.IsTrial;
+      this.LockedInDemo = Levels._instance.IsLockedInDemo(this.ThemeId)/* && BrainGame.IsTrial*/;
       this._lblStagesUnlocked.Text = string.Format("{0}/{1}", (object) Game1.ProfilesManager.CurrentProfile.PlayerStats.GetUnlockedStagesForTheme(this.ThemeId), (object) 21);
       this._lblGoldMedalsEarned.Text = string.Format("{0}/{1}", (object) Game1.ProfilesManager.CurrentProfile.PlayerStats.GetTotalMedalsForTheme(MedalType.Gold, this.ThemeId), (object) 21);
       this._lblToUnlock.Visible = this.Locked && !this.LockedInDemo;

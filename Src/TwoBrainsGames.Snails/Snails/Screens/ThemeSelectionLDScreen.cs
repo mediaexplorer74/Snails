@@ -21,7 +21,8 @@ using TwoBrainsGames.Snails.Stages;
 
 namespace TwoBrainsGames.Snails.Screens
 {
-  internal class ThemeSelectionLDScreen(ScreenNavigator navigator) : SnailsScreen(navigator, ScreenType.ThemeSelection)
+  internal class ThemeSelectionLDScreen(ScreenNavigator navigator) 
+        : SnailsScreen(navigator, ScreenType.ThemeSelection)
   {
     public const int THEME_COUNT = 4;
     private ThemeSelectionLDScreen.ScreenState _state;
@@ -51,20 +52,30 @@ namespace TwoBrainsGames.Snails.Screens
       this._title.ParentAlignment = AlignModes.Horizontaly;
       this._title.BoardSize = UISnailsMenuTitle.TitleSize.Big;
       this._title.Position = new Vector2(0.0f, 500f);
-      this._title.ShowEffect = (TransformEffectBase) new SquashEffect(0.85f, 4f, 0.04f, this.BlendColor, new Vector2(1f, 1f));
+      this._title.ShowEffect = (TransformEffectBase) 
+                new SquashEffect(0.85f, 4f, 0.04f, this.BlendColor, new Vector2(1f, 1f));
       this.Controls.Add((UIControl) this._title);
       this._themesPanel = new UIThemeScrollablePanel((UIScreen) this);
       this._themesPanel.Position = new Vector2(200f, 3100f);
-      this._themesPanel.OnThemeSelectedStarted += new UIControl.UIEvent(this._themesPanel_OnThemeSelectedStarted);
-      this._themesPanel.OnThemeSelected += new UIControl.UIEvent(this._themesPanel_OnThemeSelected);
-      this._themesPanel.OnShow += new UIControl.UIEvent(this._themesPanel_OnShow);
-      this._themesPanel.OnCancelEnded += new UIControl.UIEvent(this._themesPanel_OnCancelEnded);
+
+      this._themesPanel.OnThemeSelectedStarted += new UIControl.UIEvent(
+          this._themesPanel_OnThemeSelectedStarted);
+      this._themesPanel.OnThemeSelected += new UIControl.UIEvent(
+          this._themesPanel_OnThemeSelected);
+      this._themesPanel.OnShow += new UIControl.UIEvent(
+          this._themesPanel_OnShow);
+      this._themesPanel.OnCancelEnded += new UIControl.UIEvent(
+          this._themesPanel_OnCancelEnded);
+
       this.Controls.Add((UIControl) this._themesPanel);
+
       this._stagesPanel = new UIStagesPanelLD((UIScreen) this);
       this._stagesPanel.Name = "_stagesPanel";
       this._stagesPanel.Visible = false;
-      this._stagesPanel.OnShow += new UIControl.UIEvent(this._stagesPanel_OnShow);
+      
+       this._stagesPanel.OnShow += new UIControl.UIEvent(this._stagesPanel_OnShow);
       this._stagesPanel.OnHide += new UIControl.UIEvent(this._stagesPanel_OnHide);
+
       this._stagesPanel.OnStageSelected = new UIControl.UIEvent(this.StagesPanel_OnStageSelected);
       this._stagesPanel.OnStageDoubleSelected = new UIControl.UIEvent(this.StagesPanel_OnStageDoubleSelected);
       this._stagesPanel.OnBack += new UIControl.UIEvent(this._stagesPanel_OnBack);
@@ -83,7 +94,9 @@ namespace TwoBrainsGames.Snails.Screens
       this._btnBack = new UIBackButton((UIScreen) this);
       this._btnBack.ScreenAlignment = UIBackButton.ButtonScreenAlignment.BottomLeft;
       this._btnBack.OnPress += new UIControl.UIEvent(this.btnBack_OnPress);
+
       this.Controls.Add((UIControl) this._btnBack);
+      //RnD
       this.ShowTrialTag = true;
       this.OnBack += new UIControl.UIEvent(this.btnBack_OnPress);
       this.OnOpenTransitionEnded += new UIControl.UIEvent(this.ThemeSelectionScreenLD_OnOpenTransitionEnded);
@@ -139,7 +152,7 @@ namespace TwoBrainsGames.Snails.Screens
 
     private void ThemeSelectionScreenLD_OnOpenTransitionEnded(IUIControl sender)
     {
-      int num = this.StageAutoselected ? 1 : 0;
+     int num = this.StageAutoselected ? 1 : 0;
     }
 
     private void _stageInfo_OnAccept(IUIControl sender)
@@ -152,35 +165,43 @@ namespace TwoBrainsGames.Snails.Screens
 
     private void btnBack_OnPress(IUIControl sender)
     {
-      switch (this._state)
-      {
-        case ThemeSelectionLDScreen.ScreenState.ThemeSelection:
-          this.DisableInput();
-          this.Navigator.GlobalCache.Set("MAIN_SCREEN_STARTUP_MODE", (object) MainMenuScreen.StartupType.TitleAndMenuVisible);
-          this.NavigateTo("MainMenu", (Transition) ScreenTransitions.LeafsClosing, (Transition) ScreenTransitions.LeafsOpening);
-          break;
-        case ThemeSelectionLDScreen.ScreenState.StageSelection:
-          this.DisableInput();
-          this._stageInfo.Hide();
-          this._stagesPanel.Hide();
-          this.StageAutoselected = false;
-          this._state = ThemeSelectionLDScreen.ScreenState.ThemeSelection;
-          int currentTheme = (int) Levels.CurrentTheme;
-          int num;
-          if (currentTheme < 2)
-          {
-            num = 0;
+        switch (this._state)
+        {
+            case ThemeSelectionLDScreen.ScreenState.ThemeSelection:
+                this.DisableInput();
+                this.Navigator.GlobalCache.Set("MAIN_SCREEN_STARTUP_MODE", 
+                    (object) MainMenuScreen.StartupType.TitleAndMenuVisible);
+                this.NavigateTo("MainMenu", (Transition) ScreenTransitions.LeafsClosing, 
+                    (Transition) ScreenTransitions.LeafsOpening);
             break;
-          }
-          if (currentTheme < 2 || currentTheme >= 4)
+
+            case ThemeSelectionLDScreen.ScreenState.StageSelection:
+                this.DisableInput();
+                this._stageInfo.Hide();
+                this._stagesPanel.Hide();
+                this.StageAutoselected = false;
+                this._state = ThemeSelectionLDScreen.ScreenState.ThemeSelection;
+                int currentTheme = (int) Levels.CurrentTheme;
+                //int num = 0;
+                if (currentTheme < 2)
+                {
+                    //num = 0;
+                    break;
+                }
+                if (currentTheme < 2 || currentTheme >= 4)
+                    break;
+                //num = 1;
             break;
-          num = 1;
-          break;
-      }
+        }
+ 
     }
 
     private void _themesPanel_OnShow(IUIControl sender)
     {
+        //RnD
+        this.EnableInput();
+        this._themesPanel.Focus();
+        this._themesPanel.AcceptControllerInput = true;
     }
 
     private void _themesPanel_OnCancelEnded(IUIControl sender)
@@ -190,7 +211,11 @@ namespace TwoBrainsGames.Snails.Screens
       this._themesPanel.AcceptControllerInput = true;
     }
 
-    private void _themesPanel_OnThemeSelectedStarted(IUIControl sender) => this.DisableInput();
+    private void _themesPanel_OnThemeSelectedStarted(IUIControl sender)
+    {
+        //RnD
+        this.DisableInput();
+    }
 
     private void _themesPanel_OnThemeSelected(IUIControl sender)
     {
@@ -221,22 +246,28 @@ namespace TwoBrainsGames.Snails.Screens
     private void StagesPanel_OnStageDoubleSelected(IUIControl sender)
     {
       UIStage uiStage = (UIStage) sender;
+
       if (Game1.ThemeMusic != null && Game1.ThemeMusic.IsPlaying)
         BrainGame.MusicManager.FadeMusic(0.0f, 500);
-      if (uiStage.Locked && BrainGame.IsTrial && !uiStage.LevelStageInfo.AvailableInDemo && Game1.GameSettings.WithAppStore)
-      {
-        this.NavigateToPurchase();
-      }
-      else
+
+      //if (uiStage.Locked && BrainGame.IsTrial && !uiStage.LevelStageInfo.AvailableInDemo
+      //          && Game1.GameSettings.WithAppStore)
+      //{
+      //  this.NavigateToPurchase();
+      //}
+      //else
       {
         if (uiStage.Locked)
           return;
+        //RnD
         this.DisableInput();
         this._stagesPanel.RaiseStageLeaveEvent = false;
         uiStage.DoOnLeaveEffect = false;
         this.StartStage(uiStage.StageNr, uiStage.LevelStageInfo);
       }
     }
+
+   
 
     private void StagesPanel_OnStageSelected(IUIControl sender)
     {
@@ -248,7 +279,9 @@ namespace TwoBrainsGames.Snails.Screens
           return;
         this.NavigateToPurchase();
       }
-      else if (this._lastLevelStage == null || this._lastLevelStage != null && (this._lastLevelStage.StageNr != levelStage.StageNr || this._lastLevelStage.ThemeId != levelStage.ThemeId))
+      else if (this._lastLevelStage == null || this._lastLevelStage != null
+                && (this._lastLevelStage.StageNr != levelStage.StageNr 
+                || this._lastLevelStage.ThemeId != levelStage.ThemeId))
       {
         this._lastLevelStage = levelStage;
         uiStage.LevelStageInfo = levelStage;
@@ -260,15 +293,24 @@ namespace TwoBrainsGames.Snails.Screens
         this.StartSelectedStage();
     }
 
-    private void _stageInfo_OnButtonClicked(IUIControl sender) => this.StartSelectedStage();
+    private void _stageInfo_OnButtonClicked(IUIControl sender)
+    {
+        this.StartSelectedStage();
+    }
 
     private void StartStage(int stageNr, LevelStage levelStage)
     {
       Levels.CurrentStageNr = stageNr;
+
       this.Navigator.GlobalCache.Set("SELECTED_STAGE_INFO", (object) levelStage);
+
       this.Navigator.GlobalCache.Set("STAGE_START_SHOW_STAGE_INFO", (object) false);
-      this.Navigator.GlobalCache.Set("STAGE_START_SHOW_XBOX_HELP", (object) (BrainGame.Settings.Platform == BrainSettings.PlaformType.XBox));
-      this.NavigateTo("InGame", ScreenType.StageStart.ToString(), (Transition) ScreenTransitions.LeafsClosing, (Transition) null);
+
+      this.Navigator.GlobalCache.Set("STAGE_START_SHOW_XBOX_HELP", 
+          (object) (BrainGame.Settings.Platform == BrainSettings.PlaformType.XBox));
+
+      this.NavigateTo("InGame", ScreenType.StageStart.ToString(),
+          (Transition) ScreenTransitions.LeafsClosing, (Transition) null);
     }
 
     private void _stagesPanel_OnStageEnter(IUIControl sender)

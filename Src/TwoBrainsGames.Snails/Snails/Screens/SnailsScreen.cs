@@ -122,14 +122,14 @@ namespace TwoBrainsGames.Snails.Screens
 
     private void _imgTrial_OnAccept(IUIControl sender)
     {
-      if (!BrainGame.IsTrial || !Game1.GameSettings.WithAppStore)
-        return;
-      this.NavigateToPurchase();
+      //if (!BrainGame.IsTrial || !Game1.GameSettings.WithAppStore)
+      // return;
+      //this.NavigateToPurchase();
     }
 
     private void SnailsScreen_OnGameplayModeChanged(IUIControl sender)
     {
-      this._imgTrial.Visible = BrainGame.IsTrial && this.ShowTrialTag;
+       this._imgTrial.Visible = false;//BrainGame.IsTrial && this.ShowTrialTag;
     }
 
     private void SnailsScreen_OnBeforeControlsDraw(IUIControl sender)
@@ -155,18 +155,22 @@ namespace TwoBrainsGames.Snails.Screens
       }
       BrainGame.ClearColor = Colors.BBDefaultColor;
       BrainGame.DisplayHDDAccessIcon = true;
+
       this.FooterMessage.Initialize();
+
       if (this._pauseTransition != null)
         this._pauseTransition.Reset();
+
       this.Navigator.GlobalCache.Set("CURRENT_SCREEN", (object) this._screenType);
-      this._imgTrial.Visible = BrainGame.IsTrial && this.ShowTrialTag;
+      this._imgTrial.Visible = false;//BrainGame.IsTrial && this.ShowTrialTag;
       this._imgTrial.BringToFront();
+
       BrainGame.SampleManager.UseAudibleBoundingSquare = this.UseAudibleSoundsBoundingBox;
     }
 
     private void _imgTrial_OnGameplayModeChanged(IUIControl sender)
     {
-      this._imgTrial.Visible = BrainGame.IsTrial && this.ShowTrialTag;
+       this._imgTrial.Visible = false;//BrainGame.IsTrial && this.ShowTrialTag;
     }
 
     protected void FadeBlurOut()

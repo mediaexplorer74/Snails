@@ -28,7 +28,8 @@
     <AppxBundlePlatforms>arm</AppxBundlePlatforms>
     <AppInstallerUpdateFrequency>0</AppInstallerUpdateFrequency>
     <AppInstallerCheckForUpdateFrequency>OnApplicationRun</AppInstallerCheckForUpdateFrequency>
-    <PackageCertificateThumbprint>3D8C4A6C40F98F9010EC7F749D40B556FB8F1333</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>
+    </PackageCertificateThumbprint>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
@@ -129,13 +130,11 @@
     <Content Include="Assets\LargeTile.scale-125.png" />
     <Content Include="Assets\LargeTile.scale-150.png" />
     <Content Include="Assets\LargeTile.scale-200.png" />
-    <Content Include="Assets\LargeTile.scale-400.png" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\Logo.scale-100.png" />
     <Content Include="Assets\Logo.scale-125.png" />
     <Content Include="Assets\Logo.scale-150.png" />
     <Content Include="Assets\Logo.scale-200.png" />
-    <Content Include="Assets\Logo.scale-400.png" />
     <Content Include="Assets\SmallLogo.altform-lightunplated_targetsize-16.png" />
     <Content Include="Assets\SmallLogo.altform-lightunplated_targetsize-24.png" />
     <Content Include="Assets\SmallLogo.altform-lightunplated_targetsize-256.png" />
@@ -150,7 +149,6 @@
     <Content Include="Assets\SmallLogo.scale-125.png" />
     <Content Include="Assets\SmallLogo.scale-150.png" />
     <Content Include="Assets\SmallLogo.scale-200.png" />
-    <Content Include="Assets\SmallLogo.scale-400.png" />
     <Content Include="Assets\SmallLogo.targetsize-16.png" />
     <Content Include="Assets\SmallLogo.targetsize-24.png" />
     <Content Include="Assets\SmallLogo.targetsize-256.png" />
@@ -160,12 +158,10 @@
     <Content Include="Assets\SmallTile.scale-125.png" />
     <Content Include="Assets\SmallTile.scale-150.png" />
     <Content Include="Assets\SmallTile.scale-200.png" />
-    <Content Include="Assets\SmallTile.scale-400.png" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-125.png" />
     <Content Include="Assets\SplashScreen.scale-150.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
-    <Content Include="Assets\SplashScreen.scale-400.png" />
     <Content Include="Assets\Square150x150Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
@@ -174,13 +170,11 @@
     <Content Include="Assets\StoreLogo.scale-125.png" />
     <Content Include="Assets\StoreLogo.scale-150.png" />
     <Content Include="Assets\StoreLogo.scale-200.png" />
-    <Content Include="Assets\StoreLogo.scale-400.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\WideTile.scale-100.png" />
     <Content Include="Assets\WideTile.scale-125.png" />
     <Content Include="Assets\WideTile.scale-150.png" />
     <Content Include="Assets\WideTile.scale-200.png" />
-    <Content Include="Assets\WideTile.scale-400.png" />
     <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
   <ItemGroup>

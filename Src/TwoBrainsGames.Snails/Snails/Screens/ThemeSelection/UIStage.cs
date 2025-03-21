@@ -72,7 +72,11 @@ namespace TwoBrainsGames.Snails.Screens.ThemeSelection
     {
       get
       {
-        return BrainGame.IsTrial && this._levelStageInfo != null && !this._levelStageInfo.AvailableInDemo && !Game1.GameSettings.AllStagesUnlocked || this._locked;
+        return /*BrainGame.IsTrial &&*/
+                    this._levelStageInfo != null 
+                    && !this._levelStageInfo.AvailableInDemo
+                    && !Game1.GameSettings.AllStagesUnlocked 
+                        || this._locked;
       }
       set
       {
@@ -246,7 +250,7 @@ namespace TwoBrainsGames.Snails.Screens.ThemeSelection
       {
         this._imgLocker.Visible = true;
         this._imgLockerDemo.Visible = false;
-        if (this._levelStageInfo != null && !this._levelStageInfo.AvailableInDemo && BrainGame.IsTrial)
+        if (this._levelStageInfo != null && !this._levelStageInfo.AvailableInDemo /*&& BrainGame.IsTrial*/)
         {
           this._imgLocker.Visible = false;
           this._imgLockerDemo.Visible = true;

@@ -111,8 +111,8 @@ namespace TwoBrainsGames.Snails.Screens
     public override void OnUpdate(BrainGameTime gameTime)
     {
       base.OnUpdate(gameTime);
-      if (BrainGame.IsTrial)
-        return;
+      //if (BrainGame.IsTrial)
+      //  return;
       this.NavigateToMain();
     }
 

@@ -16,7 +16,9 @@ namespace TwoBrainsGames.BrainEngine.Graphics
     private Sprite _sprite;
     private AlphaTestEffect _alphaTestEffect;
     private DepthStencilState _stencilAlways;
+    
     private SpriteBatch _spriteBatch;
+
     private RenderTarget2D _renderTarget;
 
     public Vector2 Position { get; set; }
@@ -46,7 +48,9 @@ namespace TwoBrainsGames.BrainEngine.Graphics
       this._stencilAlways.StencilPass = StencilOperation.Replace;
       this._stencilAlways.ReferenceStencil = 0;
       this._stencilAlways.DepthBufferEnable = false;
-      this._renderTarget = new RenderTarget2D(BrainGame.Graphics, BrainGame.ScreenWidth, BrainGame.ScreenHeight, false, SurfaceFormat.Color, DepthFormat.Depth24Stencil8, 0, RenderTargetUsage.DiscardContents);
+      this._renderTarget = new RenderTarget2D(BrainGame.Graphics, BrainGame.ScreenWidth, 
+          BrainGame.ScreenHeight, false, SurfaceFormat.Color, DepthFormat.Depth24Stencil8, 
+          0, RenderTargetUsage.DiscardContents);
     }
 
     public void BeginDraw()
@@ -60,7 +64,8 @@ namespace TwoBrainsGames.BrainEngine.Graphics
       this._spriteBatch.End();
       BrainGame.Graphics.SetRenderTarget((RenderTarget2D) null);
       BrainGame.Graphics.Clear(ClearOptions.Stencil, new Color(0, 0, 0, 1), 0.0f, 0);
-      this._spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, (SamplerState) null, this._stencilAlways, (RasterizerState) null, (Effect) this._alphaTestEffect);
+      this._spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, (SamplerState) null, 
+          this._stencilAlways, (RasterizerState) null, (Effect) this._alphaTestEffect);
       this._spriteBatch.Draw((Texture2D) this._renderTarget, Vector2.Zero, Color.White);
       this._spriteBatch.End();
     }
@@ -97,7 +102,8 @@ namespace TwoBrainsGames.BrainEngine.Graphics
     public void Render()
     {
       BrainGame.Graphics.Clear(ClearOptions.Stencil, new Color(0, 0, 0, 1), 0.0f, 1);
-      this._spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque, BrainGame.CurrentSampler, this._stencilAlways, (RasterizerState) null, (Effect) this._alphaTestEffect);
+      this._spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque, BrainGame.CurrentSampler, 
+          this._stencilAlways, (RasterizerState) null, (Effect) this._alphaTestEffect);
       this._sprite.Draw(this.Position, this._spriteBatch);
       this._spriteBatch.End();
     }

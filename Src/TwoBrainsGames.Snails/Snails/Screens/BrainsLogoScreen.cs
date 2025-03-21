@@ -29,7 +29,8 @@ namespace TwoBrainsGames.Snails.Screens
       : base(owner)
     {
       this.BackgroundColor = Color.White;
-      this._imgLogo = new UIImage((UIScreen) this, "spriteset/brains-logo/BrainsLogo", "__TEMPORARY__");
+      this._imgLogo = new UIImage((UIScreen) this, "spriteset/brains-logo/BrainsLogo", 
+          "__TEMPORARY__");
       this._imgLogo.ParentAlignment = AlignModes.HorizontalyVertically;
       this.Controls.Add((UIControl) this._imgLogo);
       this._tmrSkip = new UITimer((UIScreen) this, 2500.0, false);
@@ -40,17 +41,24 @@ namespace TwoBrainsGames.Snails.Screens
       this._panelSocial.Margins.Bottom = 500f;
       this._panelSocial.Size = this.NativeResolution(new Size(1000f, 1000f));
       this.Controls.Add((UIControl) this._panelSocial);
-      this._imgFacebok = new UIImage((UIScreen) this, "spriteset/menu-elements-1/Facebook", "__TEMPORARY__");
+      this._imgFacebok = new UIImage((UIScreen) this, "spriteset/menu-elements-1/Facebook", 
+          "__TEMPORARY__");
       this._imgFacebok.ParentAlignment = AlignModes.Vertically | AlignModes.Left;
       this._panelSocial.Controls.Add((UIControl) this._imgFacebok);
-      this._imgTwitter = new UIImage((UIScreen) this, "spriteset/menu-elements-1/Twitter", "__TEMPORARY__");
+      this._imgTwitter = new UIImage((UIScreen) this, "spriteset/menu-elements-1/Twitter", 
+          "__TEMPORARY__");
       this._imgTwitter.ParentAlignment = AlignModes.Vertically | AlignModes.Right;
       this._panelSocial.Controls.Add((UIControl) this._imgTwitter);
+
       this.OnAccept += new UIControl.UIEvent(this.BrainsLogoScreen_OnAccept);
+
       BrainGame.DisplayHDDAccessIcon = false;
     }
 
-    private void BrainsLogoScreen_OnAccept(IUIControl sender) => this.NavigateToMain();
+    private void BrainsLogoScreen_OnAccept(IUIControl sender)
+    {
+        this.NavigateToMain();
+    }
 
     public override void OnStart()
     {
@@ -64,10 +72,15 @@ namespace TwoBrainsGames.Snails.Screens
     {
       BrainGame.DisplayHDDAccessIcon = true;
       BrainGame.ClearColor = Color.White;
+
       if (Game1.GameSettings.ShowAutoSaveScreen)
-        this.NavigateTo(ScreenType.AutoSave.ToString(), (Transition) ScreenTransitions.FadeOut, (Transition) ScreenTransitions.FadeIn);
+        this.NavigateTo(ScreenType.AutoSave.ToString(), 
+            (Transition) ScreenTransitions.FadeOut, 
+            (Transition) ScreenTransitions.FadeIn);
       else
-        this.NavigateTo("MainMenu", ScreenType.MainMenu.ToString(), (Transition) ScreenTransitions.FadeOutWhite, (Transition) ScreenTransitions.FadeInWhite);
+        this.NavigateTo("MainMenu", ScreenType.MainMenu.ToString(), 
+            (Transition) ScreenTransitions.FadeOutWhite,
+            (Transition) ScreenTransitions.FadeInWhite);
     }
 
     private enum ScreenState

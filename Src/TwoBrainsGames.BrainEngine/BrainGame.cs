@@ -39,8 +39,10 @@ namespace TwoBrainsGames.BrainEngine
     protected Texture2D _rectTexture;
     protected LineBatch _lineBatch;
     protected Camera2D _activeCamera;
+
     protected GraphicsDeviceManager _graphicsManager;
     protected Viewport _viewport;
+
     protected float _viewportRatioX;
     protected float _viewportRatioY;
     protected Rectangle _screenRectangle;
@@ -71,9 +73,21 @@ namespace TwoBrainsGames.BrainEngine
 
     public event EventHandler OnGameActivated;
 
-    public static int ScreenWidth => BrainGame.Instance._graphicsManager.PreferredBackBufferWidth;
+    public static int ScreenWidth
+    {
+        get
+        {
+            return BrainGame.Instance._graphicsManager.PreferredBackBufferWidth;
+        }
+    }
 
-    public static int ScreenHeight => BrainGame.Instance._graphicsManager.PreferredBackBufferHeight;
+    public static int ScreenHeight
+    {
+        get
+        {
+            return BrainGame.Instance._graphicsManager.PreferredBackBufferHeight;
+        }
+    }
 
     public static int NativeScreenWidth
     {
@@ -207,7 +221,13 @@ namespace TwoBrainsGames.BrainEngine
       protected set => BrainGame.Instance._gameFolderName = value;
     }
 
-    public static string GameVersion => BrainGame.Instance.GetGameVersion();
+    public static string GameVersion
+    {
+        get
+        {
+            return BrainGame.Instance.GetGameVersion();
+        }
+    }
 
     public static string GameUserFolderName
     {
@@ -217,7 +237,7 @@ namespace TwoBrainsGames.BrainEngine
           return BrainGame._mainGameFolder;
 
                 StorageFolder folder = ApplicationData.Current.LocalFolder;
-                //Environment.SpecialFolder folder = Environment.SpecialFolder.ApplicationData;
+                
                 BrainGame._mainGameFolder = folder.Path != null
                     ? Path.Combine(Path.Combine(folder.Path, "2BrainsGames"),
                     BrainGame.GameFolderName)
@@ -286,10 +306,14 @@ namespace TwoBrainsGames.BrainEngine
     {
       if (lineWidth == 0)
         lineWidth = 1;
-      spriteBatch.Draw(BrainGame.Instance._rectTexture, new Rectangle(rectangle.Left, rectangle.Top, lineWidth, rectangle.Height), color);
-      spriteBatch.Draw(BrainGame.Instance._rectTexture, new Rectangle(rectangle.Right, rectangle.Top, lineWidth, rectangle.Height), color);
-      spriteBatch.Draw(BrainGame.Instance._rectTexture, new Rectangle(rectangle.Left, rectangle.Top, rectangle.Width, lineWidth), color);
-      spriteBatch.Draw(BrainGame.Instance._rectTexture, new Rectangle(rectangle.Left, rectangle.Bottom, rectangle.Width, lineWidth), color);
+      spriteBatch.Draw(BrainGame.Instance._rectTexture, 
+          new Rectangle(rectangle.Left, rectangle.Top, lineWidth, rectangle.Height), color);
+      spriteBatch.Draw(BrainGame.Instance._rectTexture, 
+          new Rectangle(rectangle.Right, rectangle.Top, lineWidth, rectangle.Height), color);
+      spriteBatch.Draw(BrainGame.Instance._rectTexture, 
+          new Rectangle(rectangle.Left, rectangle.Top, rectangle.Width, lineWidth), color);
+      spriteBatch.Draw(BrainGame.Instance._rectTexture, 
+          new Rectangle(rectangle.Left, rectangle.Bottom, rectangle.Width, lineWidth), color);
     }
 
     public static BrainSettings Settings
@@ -306,7 +330,8 @@ namespace TwoBrainsGames.BrainEngine
 
     public virtual Screen CreateScreen(ScreenNavigator owner, string screenId)
     {
-      throw new BrainException("Override BrainGame.CreateScreen() in yout Game class to create Screen instances.");
+      throw new BrainException(
+          "Override BrainGame.CreateScreen() in your Game class to create Screen instances.");
     }
 
     protected virtual void LoadSettings()
@@ -316,7 +341,8 @@ namespace TwoBrainsGames.BrainEngine
     protected override void Initialize()
     {
       this._contentRootDir = "Content";
-      this._resourceManager = new ResourceManager((IServiceProvider) this.Services, this._contentRootDir);
+      this._resourceManager = new ResourceManager((IServiceProvider) this.Services, 
+          this._contentRootDir);
       this.LoadSettings();
       this._sampleManager = new SampleManager(this);
       this.Components.Add((IGameComponent) this._sampleManager);

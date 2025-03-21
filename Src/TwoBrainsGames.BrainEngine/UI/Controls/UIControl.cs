@@ -107,11 +107,16 @@ namespace TwoBrainsGames.BrainEngine.UI.Controls
       private set
       {
         this._clientRect = value;
-        Vector2 vector1 = new Vector2((float) this._clientRect.X, (float) this._clientRect.Y);
-        Vector2 vector2 = new Vector2((float) this._clientRect.Width, (float) this._clientRect.Height);
+        Vector2 vector1 = new Vector2((float) this._clientRect.X, 
+            (float) this._clientRect.Y);
+
+        Vector2 vector2 = new Vector2((float) this._clientRect.Width, 
+            (float) this._clientRect.Height);
         Vector2 pixels1 = this.ScreenUnitToPixels(vector1);
         Vector2 pixels2 = this.ScreenUnitToPixels(vector2);
-        this._clientRectInPixels = new Rectangle((int) pixels1.X, (int) pixels1.Y, (int) pixels2.X, (int) pixels2.Y);
+
+        this._clientRectInPixels = new Rectangle((int) pixels1.X, 
+            (int) pixels1.Y, (int) pixels2.X, (int) pixels2.Y);
       }
     }
 
@@ -142,11 +147,14 @@ namespace TwoBrainsGames.BrainEngine.UI.Controls
     {
       get
       {
-        return (!this.ScreenOwner.IsCursorCaptured || this.ScreenOwner.CursorCaptureControl == this) && this.Visible && this.Enabled && this.AcceptControllerInput && this.Active;
+        return (!this.ScreenOwner.IsCursorCaptured 
+                    || this.ScreenOwner.CursorCaptureControl == this) 
+                    && this.Visible && this.Enabled && this.AcceptControllerInput && this.Active;
       }
     }
 
-    public bool HasFocus => this.ScreenOwner != null && this.ScreenOwner.FocusControl == this;
+    public bool HasFocus => this.ScreenOwner != null
+            && this.ScreenOwner.FocusControl == this;
 
     public TransformBlender EffectsBlender { get; private set; }
 
@@ -227,7 +235,9 @@ namespace TwoBrainsGames.BrainEngine.UI.Controls
     {
       get
       {
-        return this.Parent != null && this.BlendColorWithParent ? new Color(this._blendColor.ToVector4() * this.Parent.BlendColor.ToVector4()) : this._blendColor;
+        return this.Parent != null && this.BlendColorWithParent 
+                    ? new Color(this._blendColor.ToVector4() * this.Parent.BlendColor.ToVector4())
+                    : this._blendColor;
       }
       set => this._blendColor = value;
     }
@@ -292,7 +302,8 @@ namespace TwoBrainsGames.BrainEngine.UI.Controls
       get => this._size;
       set
       {
-        if ((double) this._size.Height == (double) value.Height && (double) this._size.Width == (double) value.Width)
+        if ((double) this._size.Height == (double) value.Height 
+                    && (double) this._size.Width == (double) value.Width)
           return;
         this._size = value;
         this.NeedUpdateLayout = true;
@@ -585,7 +596,8 @@ namespace TwoBrainsGames.BrainEngine.UI.Controls
       this.UpdateLayout();
       this.BeginDraw();
       if (this.BackgroundColor != Color.Transparent)
-        this.SpriteBatch.Draw(UIScreen.ClearTexture, this.BoundingBox.ToRect(), this.BackgroundColor);
+        this.SpriteBatch.Draw(UIScreen.ClearTexture, 
+            this.BoundingBox.ToRect(), this.BackgroundColor);
       foreach (UIControl control in this.Controls)
         control.InternalDraw();
       this.Draw();
@@ -709,7 +721,8 @@ namespace TwoBrainsGames.BrainEngine.UI.Controls
           this.OnMotionPointerDown((IUIControl) this);
         }
       }
-      if (this._cursorDownOnControl && this.ScreenOwner.InputController.ActionAcceptUp && this.OnMotionPointerUp != null)
+      if (this._cursorDownOnControl && this.ScreenOwner.InputController.ActionAcceptUp
+                && this.OnMotionPointerUp != null)
       {
         this._cursorDownOnControl = false;
         this.OnMotionPointerUp((IUIControl) this);
@@ -753,7 +766,10 @@ namespace TwoBrainsGames.BrainEngine.UI.Controls
 
     public virtual bool CheckCursorInside()
     {
-      return this.ScreenOwner.FocusControl == this && !this.BoundingBox.Contains(BrainGame.GameCursor.Position) ? this.BoundingBox.Contains(BrainGame.GameCursor.Position) : this.BoundingBox.Contains(BrainGame.GameCursor.Position);
+      return this.ScreenOwner.FocusControl == this 
+                && !this.BoundingBox.Contains(BrainGame.GameCursor.Position) 
+                ? this.BoundingBox.Contains(BrainGame.GameCursor.Position)
+                : this.BoundingBox.Contains(BrainGame.GameCursor.Position);
     }
 
     protected void UpdateCurrentEffect(BrainGameTime gameTime)
@@ -814,6 +830,7 @@ namespace TwoBrainsGames.BrainEngine.UI.Controls
       if (!this.CanFocus)
         return;
       this.ScreenOwner.FocusControl = this;
+
       if (this.ScreenOwner != null && this.ScreenOwner.CursorMode == CursorModes.SnapToControl)
         BrainGame.GameCursor.Position = this.CenterInPixels;
       if (this.OnFocusEffect != null)

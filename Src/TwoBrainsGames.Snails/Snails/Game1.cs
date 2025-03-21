@@ -87,32 +87,47 @@ namespace TwoBrainsGames.Snails
         if (Game1.GameSettings.AllowToggleFullScreen)
           this.QueryScreenMode();
         this.IsFixedTimeStep = false;
-        this._graphicsManager.PreferredBackBufferWidth = BrainGame.PresentationNativeScreenWidth;
-        this._graphicsManager.PreferredBackBufferHeight = BrainGame.PresentationNativeScreenHeight;
-        this._graphicsManager.PreferredDepthStencilFormat = DepthFormat.Depth24Stencil8;
-        
+
         //RnD
-        this._graphicsManager.IsFullScreen = false;//Game1.GameSettings.IsFullScreen;
+        this._graphicsManager.PreferredBackBufferWidth = 480;//BrainGame.PresentationNativeScreenWidth;
+        this._graphicsManager.PreferredBackBufferHeight = 800;//BrainGame.PresentationNativeScreenHeight;
         
-        //if (Game1.ProfilesManager.CurrentProfile != null && Game1.GameSettings.AllowToggleFullScreen)
-        //  this._graphicsManager.IsFullScreen = Game1.ProfilesManager.CurrentProfile.Fullscreen;
+        this._graphicsManager.PreferredDepthStencilFormat = DepthFormat.Depth24Stencil8;
+
+        //RnD
+        this._graphicsManager.IsFullScreen = Game1.GameSettings.IsFullScreen;
         
-        this._graphicsManager.SynchronizeWithVerticalRetrace = Game1.GameSettings.UseVSync;
+        if (Game1.ProfilesManager.CurrentProfile != null 
+                    && Game1.GameSettings.AllowToggleFullScreen)
+           this._graphicsManager.IsFullScreen = Game1.ProfilesManager.CurrentProfile.Fullscreen;
+        
+        //this._graphicsManager.SynchronizeWithVerticalRetrace = Game1.GameSettings.UseVSync;
         this._graphicsManager.ApplyChanges();
+
         this.SetupRenderViewport();
         this.SetupProjectionMatrix();
+
         this.IsMouseVisible = false;
+        
         this._defaultCamera = new Camera2D();
         this._defaultCamera.Initialize();
+
         this.Services.AddService(typeof (SpriteBatch), (object) BrainGame.SpriteBatch);
+
         this._lineBatch = new LineBatch(this._graphicsManager.GraphicsDevice, 1f);
-        this._tutorial = BrainGame.ResourceManager.Load<Tutorial>("tutorials/tutorial", ResourceManager.ResourceManagerCacheType.Static);
+        this._tutorial = BrainGame.ResourceManager.Load<Tutorial>("tutorials/tutorial", 
+            ResourceManager.ResourceManagerCacheType.Static);
+
         BrainGame.HddAccessIcon = (IHddIndicator) new TwoBrainsGames.Snails.HddAccessIcon();
         BrainGame.HddAccessIcon.LoadContent();
         BrainGame.DisplayHDDAccessIcon = false;
-        BrainGame.ScreenNavigator.UseAssyncGroupLoading = Game1.GameSettings.UseAsyncLoading;
+
+        //RnD
+        BrainGame.ScreenNavigator.UseAssyncGroupLoading = false; //Game1.GameSettings.UseAsyncLoading;
+
         BrainGame.ClearColor = Color.Black;
         BrainGame.GameCursor = (Cursor) new SoftwareCursor();
+
         if (BrainGame.GameCursor is SoftwareCursor)
         {
           BrainGame.GameCursor.LoadCursor("spriteset/player-cursor/DefaultCursor", 0);
@@ -122,11 +137,14 @@ namespace TwoBrainsGames.Snails
           BrainGame.GameCursor.LoadCursor("spriteset/player-cursor/SaltCursorForbidden", 4);
           BrainGame.GameCursor.LoadCursor("spriteset/player-cursor/OutOfStockCursor", 5);
           BrainGame.GameCursor.LoadCursor("spriteset/player-cursor/PanCursor", 6);
-          //RnD
-          BrainGame.GameCursor.Visible = true;//false;
+    
+          BrainGame.GameCursor.Visible = false;
           BrainGame.GameCursor.SetCursor(0);
         }
-        BrainGame.ScreenNavigator.NavigateTo(Game1.GameSettings.StartupScreenGroup, Game1.GameSettings.StartupScreen);
+
+        BrainGame.ScreenNavigator.NavigateTo(Game1.GameSettings.StartupScreenGroup, 
+            Game1.GameSettings.StartupScreen);
+
         ScreenTransitions.Initialize();
         StageObjectFactory.Initialize();
         BrainGame.ResourceManager.CreateUserDefinedResourceManager("STAGE_THUMBNAILS");
@@ -140,16 +158,22 @@ namespace TwoBrainsGames.Snails
 
     private void UpdateGamePlayMode()
     {
-      Game1.GameSettings.GameplayMode = /*Guide.IsTrialMode ? BrainSettings.GameplayModeType.Demo :*/ BrainSettings.GameplayModeType.Retail;
+      Game1.GameSettings.GameplayMode = 
+        /*Guide.IsTrialMode ? BrainSettings.GameplayModeType.Demo :*/ 
+        BrainSettings.GameplayModeType.Retail;
     }
 
     private void SnailsGame_OnGameActivated(object sender, EventArgs e)
     {
       this.UpdateGamePlayMode();
-      if (BrainGame.ScreenNavigator == null || BrainGame.ScreenNavigator.GlobalCache.Get<ScreenType>("CURRENT_SCREEN", ScreenType.None) != ScreenType.Purchase)
+      if (BrainGame.ScreenNavigator == null 
+                || BrainGame.ScreenNavigator.GlobalCache.Get<ScreenType>("CURRENT_SCREEN", ScreenType.None) 
+                != ScreenType.Purchase)
         return;
+
       BrainGame.ScreenNavigator.GlobalCache.Set("MAIN_SCREEN_STARTUP_MODE", 
           (object) MainMenuScreen.StartupType.TitleAndMenuVisible);
+
       BrainGame.ScreenNavigator.NavigateTo("MainMenu", ScreenType.MainMenu.ToString(), 
           (Transition) null, (Transition) null);
     }
@@ -180,17 +204,31 @@ namespace TwoBrainsGames.Snails
 
     public override void SetupRenderViewport()
     {
-      float num1 = (float) this._graphicsManager.GraphicsDevice.Viewport.Width / (float) this._graphicsManager.GraphicsDevice.Viewport.Height;
-      float num2 = (float) BrainGame.PresentationNativeScreenWidth / (float) BrainGame.PresentationNativeScreenHeight;
+      float num1 = (float) this._graphicsManager.GraphicsDevice.Viewport.Width
+                / (float) this._graphicsManager.GraphicsDevice.Viewport.Height;
+
+      float num2 = (float) BrainGame.PresentationNativeScreenWidth
+                / (float) BrainGame.PresentationNativeScreenHeight;
+
       if ((double) num2 < (double) num1)
       {
-        float width = (float) this._graphicsManager.GraphicsDevice.Viewport.Height * (float) BrainGame.PresentationNativeScreenWidth / (float) BrainGame.PresentationNativeScreenHeight;
-        BrainGame.SetViewport(new Viewport((int) (((float) this._graphicsManager.GraphicsDevice.Viewport.Width - width) / 2f), 0, (int) width, this._graphicsManager.GraphicsDevice.DisplayMode.Height));
+        float width = (float) this._graphicsManager.GraphicsDevice.Viewport.Height
+                    * (float) BrainGame.PresentationNativeScreenWidth / 
+                    (float) BrainGame.PresentationNativeScreenHeight;
+
+        BrainGame.SetViewport(
+            new Viewport((int) (((float) this._graphicsManager.GraphicsDevice.Viewport.Width - width) / 2f), 
+            0, (int) width, this._graphicsManager.GraphicsDevice.DisplayMode.Height));
       }
       else if ((double) num2 > (double) num1)
       {
-        float height = (float) this._graphicsManager.GraphicsDevice.Viewport.Width * (float) BrainGame.PresentationNativeScreenHeight / (float) BrainGame.PresentationNativeScreenWidth;
-        BrainGame.SetViewport(new Viewport(0, (int) (((float) this._graphicsManager.GraphicsDevice.Viewport.Height - height) / 2f), this._graphicsManager.GraphicsDevice.Viewport.Width, (int) height));
+        float height = (float) this._graphicsManager.GraphicsDevice.Viewport.Width 
+                    * (float) BrainGame.PresentationNativeScreenHeight 
+                    / (float) BrainGame.PresentationNativeScreenWidth;
+
+        BrainGame.SetViewport(new Viewport(0, 
+            (int) (((float) this._graphicsManager.GraphicsDevice.Viewport.Height - height) / 2f),
+            this._graphicsManager.GraphicsDevice.Viewport.Width, (int) height));
       }
       else
         BrainGame.SetViewport(this._graphicsManager.GraphicsDevice.Viewport);
@@ -224,14 +262,25 @@ namespace TwoBrainsGames.Snails
         num2 = Math.Abs((nativeScreenHeight1 - num8) / 2);
       }
       int num9 = 1;
-      if (Game1.GameSettings.Platform == BrainSettings.PlaformType.Windows8 || Game1.GameSettings.Platform == BrainSettings.PlaformType.Windows8RT)
-        num9 = -1;
+
+      //if (Game1.GameSettings.Platform == BrainSettings.PlaformType.Windows8
+      // || Game1.GameSettings.Platform == BrainSettings.PlaformType.Windows8RT)
+      //{
+      //   num9 = -1;
+      //}
+
       int nativeScreenWidth2 = BrainGame.PresentationNativeScreenWidth;
       int nativeScreenHeight2 = BrainGame.PresentationNativeScreenHeight;
       int x = 0;
       int y = 0;
-      this._screenRectangle = new Rectangle(x, y, Game1.GameSettings.ScreenWidth, Game1.GameSettings.ScreenHeight);
-      this._renderEffect.Projection = Matrix.CreateTranslation((float) -x - 0.5f * (float) num9, (float) y - 0.5f * (float) num9, 0.0f) * Matrix.CreateOrthographicOffCenter(0.0f, (float) nativeScreenWidth2, (float) nativeScreenHeight2, 0.0f, -1f, 1f);
+      this._screenRectangle = new Rectangle(x, y, 
+          Game1.GameSettings.ScreenWidth, 
+          Game1.GameSettings.ScreenHeight);
+
+      this._renderEffect.Projection = Matrix.CreateTranslation((float) -x - 0.5f * (float) num9, 
+          (float) y - 0.5f * (float) num9, 0.0f) * Matrix.CreateOrthographicOffCenter(0.0f,
+          (float) nativeScreenWidth2, (float) nativeScreenHeight2, 0.0f, -1f, 1f);
+
       this._renderEffect.TextureEnabled = true;
       this._renderEffect.VertexColorEnabled = true;
       this._viewportRatioX = this._viewportRatioY = 1f;
@@ -256,8 +305,12 @@ namespace TwoBrainsGames.Snails
           return (Screen) new CreditsScreen(navigator);
         case ScreenType.Overscan:
           return (Screen) new OverscanScreen(navigator);
+
         case ScreenType.ThemeSelection:
-          return Game1.GameSettings.PresentationMode == GameSettings.PresentationType.HD ? (Screen) new ThemeSelectionScreen(navigator) : (Screen) new ThemeSelectionLDScreen(navigator);
+                    return Game1.GameSettings.PresentationMode == GameSettings.PresentationType.HD
+                                 ? (Screen)new ThemeSelectionScreen(navigator)
+                                 : (Screen)new ThemeSelectionLDScreen(navigator);
+
         case ScreenType.DebugOptions:
           return (Screen) new DebugOptionsScreen(navigator);
         case ScreenType.StageCompleted:
@@ -303,8 +356,8 @@ namespace TwoBrainsGames.Snails
 
     public void PurchaseGame()
     {
-      if (!BrainGame.IsTrial)
-        return;
+      //if (!BrainGame.IsTrial)
+      //  return;
       //Guide.ShowMarketplace(PlayerIndex.One);
     }
   }

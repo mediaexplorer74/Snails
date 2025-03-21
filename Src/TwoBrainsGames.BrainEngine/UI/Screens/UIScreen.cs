@@ -275,6 +275,7 @@ namespace TwoBrainsGames.BrainEngine.UI.Screens
           this.OnBack((IUIControl) this);
         if (this.InputController.ActionCancel && this.OnCancel != null)
           this.OnCancel((IUIControl) this);
+        
         if (this.CursorMode == CursorModes.SnapToControl)
           this.CheckControlSnap();
       }

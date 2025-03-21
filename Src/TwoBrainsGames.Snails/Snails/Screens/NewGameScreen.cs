@@ -27,13 +27,16 @@ namespace TwoBrainsGames.Snails.Screens
 
     public override void OnLoad()
     {
-      this._fontTextBigger = BrainGame.ResourceManager.Load<TextFont>("fonts/main-font-big", ResourceManager.ResourceManagerCacheType.Static);
-      this._textFont = BrainGame.ResourceManager.Load<TextFont>("fonts/main-font-medium", ResourceManager.ResourceManagerCacheType.Static);
+      this._fontTextBigger = BrainGame.ResourceManager.Load<TextFont>("fonts/main-font-big", 
+          ResourceManager.ResourceManagerCacheType.Static);
+      this._textFont = BrainGame.ResourceManager.Load<TextFont>("fonts/main-font-medium", 
+          ResourceManager.ResourceManagerCacheType.Static);
       UITextFontLabel control1 = new UITextFontLabel((UIScreen) this, this._fontTextBigger, "Profiles");
       control1.Position = new Vector2(0.0f, 1500f);
       control1.ParentAlignment = AlignModes.Horizontaly;
       this.Controls.Add((UIControl) control1);
-      UITextFontLabel control2 = new UITextFontLabel((UIScreen) this, this._textFont, "Choose your player's name: ");
+      UITextFontLabel control2 = new UITextFontLabel((UIScreen) this, this._textFont, 
+          "Choose your player's name: ");
       control2.Position = new Vector2(950f, 3200f);
       this.Controls.Add((UIControl) control2);
       this._textInput = new UITextFontLabelInput((UIScreen) this, this._textFont);
@@ -51,8 +54,10 @@ namespace TwoBrainsGames.Snails.Screens
     {
       string screenId = this.Navigator.GlobalCache.Get<string>("NEW_GAME_BACK_SCREEN");
       if (screenId == ScreenType.MainMenu.ToString())
-        this.Navigator.GlobalCache.Set("MAIN_SCREEN_STARTUP_MODE", (object) MainMenuScreen.StartupType.TitleAndMenuVisible);
-      this.NavigateTo(screenId, (Transition) ScreenTransitions.LeafsClosing, (Transition) ScreenTransitions.LeafsOpening);
+        this.Navigator.GlobalCache.Set("MAIN_SCREEN_STARTUP_MODE", 
+            (object) MainMenuScreen.StartupType.TitleAndMenuVisible);
+      this.NavigateTo(screenId, (Transition) ScreenTransitions.LeafsClosing, 
+          (Transition) ScreenTransitions.LeafsOpening);
     }
 
     public override void OnUpdate(BrainGameTime gameTime)
@@ -60,7 +65,8 @@ namespace TwoBrainsGames.Snails.Screens
       if (this.InputController.ActionAccept && this._textInput.HasText())
       {
         Game1.ProfilesManager.CreateProfile(this._textInput.Text);
-        this.NavigateTo(ScreenGroupType.InGame.ToString(), ScreenType.StageStart.ToString(), (Transition) ScreenTransitions.FadeOut, (Transition) ScreenTransitions.FadeIn);
+        this.NavigateTo(ScreenGroupType.InGame.ToString(), ScreenType.StageStart.ToString(), 
+            (Transition) ScreenTransitions.FadeOut, (Transition) ScreenTransitions.FadeIn);
       }
       else
       {

@@ -22,7 +22,8 @@ namespace TwoBrainsGames.Snails.Screens
 
     public override void OnUpdate(BrainGameTime gameTime)
     {
-      this.NavigateTo(ScreenType.BrainsLogo.ToString(), (Transition) null, (Transition) null);
+      this.NavigateTo(ScreenType.BrainsLogo.ToString(), 
+          (Transition) null, (Transition) null);
     }
   }
 }
