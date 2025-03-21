@@ -458,7 +458,9 @@ namespace TwoBrainsGames.BrainEngine.UI.Controls
 
     protected void InitializeFromContent(string contentName)
     {
-      this.ControlContentRootRecord = BrainGame.ResourceManager.Load<DataFileRecord>(Path.Combine(BrainGame.Settings.NavigatorControlContentFolder, contentName), ResourceManager.ResourceManagerCacheType.Static);
+      this.ControlContentRootRecord = BrainGame.ResourceManager.Load<DataFileRecord>(
+          Path.Combine(BrainGame.Settings.NavigatorControlContentFolder, contentName), 
+          ResourceManager.ResourceManagerCacheType.Static);
       this.InitializeFromDataFileRecord();
     }
 
@@ -466,7 +468,10 @@ namespace TwoBrainsGames.BrainEngine.UI.Controls
     {
       if (this.ScreenOwner.ControlsContentRootRecord != null && !string.IsNullOrEmpty(this.Name))
       {
-        this.ControlContentRootRecord = this.ScreenOwner.ControlsContentRootRecord.SelectRecordByField("Control", "name", (object) this.Name);
+        this.ControlContentRootRecord = 
+                    this.ScreenOwner.ControlsContentRootRecord.SelectRecordByField(
+                        "Control", "name", (object) this.Name);
+
         if (this.ControlContentRootRecord != null)
           this.InitializeFromDataFileRecord();
       }
@@ -488,7 +493,8 @@ namespace TwoBrainsGames.BrainEngine.UI.Controls
     {
       this.BlendColor = this.GetContentPropertyValue<Color>("blendColor", this.BlendColor);
       this.Position = this.GetContentPropertyValue<Vector2>("position", this.Position);
-      this.ParentAlignment = (AlignModes) Enum.Parse(typeof (AlignModes), this.GetContentPropertyValue<string>("parentAlignment", this.ParentAlignment.ToString()), true);
+      this.ParentAlignment = (AlignModes) Enum.Parse(typeof (AlignModes), 
+          this.GetContentPropertyValue<string>("parentAlignment", this.ParentAlignment.ToString()), true);
       this.Scale = this.GetContentPropertyValue<Vector2>("scale", this.Scale);
       this.Size = this.GetContentPropertyValue<Size>("size", this.Size);
       this.BackgroundColor = this.GetContentPropertyValue<Color>("backColor", this.BackgroundColor);
@@ -505,12 +511,18 @@ namespace TwoBrainsGames.BrainEngine.UI.Controls
       T contentPropertyValue = defaultValue;
       if (this.ControlContentRootRecord == null)
         return contentPropertyValue;
-      DataFileRecord parentRecord1 = this.ControlContentRootRecord.SelectRecordByField("Properties", "presentationMode", (object) "");
+      DataFileRecord parentRecord1 = this.ControlContentRootRecord.SelectRecordByField(
+          "Properties", "presentationMode", (object) "");
+
       if (parentRecord1 != null)
         contentPropertyValue = this.GetPropertyValue<T>(parentRecord1, propName, defaultValue);
-      DataFileRecord parentRecord2 = this.ControlContentRootRecord.SelectRecordByField("Properties", "presentationMode", (object) BrainGame.Settings.PresentationModeString);
+
+      DataFileRecord parentRecord2 = this.ControlContentRootRecord.SelectRecordByField(
+          "Properties", "presentationMode", (object) BrainGame.Settings.PresentationModeString);
+
       if (parentRecord2 != null)
         contentPropertyValue = this.GetPropertyValue<T>(parentRecord2, propName, defaultValue);
+
       return contentPropertyValue;
     }
 

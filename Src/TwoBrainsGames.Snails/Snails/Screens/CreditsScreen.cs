@@ -108,7 +108,8 @@ namespace TwoBrainsGames.Snails.Screens
       this._versionAndContact.Margins.Left = 150f;
       this._versionAndContact.ParentAlignment = AlignModes.Bottom | AlignModes.Left;
       this._versionAndContact.Font = BrainGame.ResourceManager.Load<SpriteFont>("fonts/contactInfo");
-      this._versionAndContact.Text = string.Format("Product version {0}, support contact {1}", (object) BrainGame.Settings.GameVersion, (object) BrainGame.Settings.SupportContact);
+      this._versionAndContact.Text = string.Format("Product version {0}, support contact {1}",
+          (object) BrainGame.Settings.GameVersion, (object) BrainGame.Settings.SupportContact);
       this.Controls.Add((UIControl) this._versionAndContact);
     }
 

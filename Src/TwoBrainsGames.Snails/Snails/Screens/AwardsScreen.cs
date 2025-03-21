@@ -34,7 +34,10 @@ namespace TwoBrainsGames.Snails.Screens
       this._title.Position = new Vector2(0.0f, 200f);
       this._title.TextResourceId = "TITLE_SNAILS_AWARDS";
       this.Controls.Add((UIControl) this._title);
-      this._panel = new UISnailsScrollablePanel((UIScreen) this, UIScrollablePanel.PanelOrientation.Vertical, !BrainGame.Settings.UseTouch, 10000f);
+
+      this._panel = new UISnailsScrollablePanel((UIScreen) this, UIScrollablePanel.PanelOrientation.Vertical, 
+          !BrainGame.Settings.UseTouch, 10000f);
+
       this._panel.ParentAlignment = AlignModes.Horizontaly;
       this._panel.Size = new Size(7000f, 6500f);
       this._panel.Position = new Vector2(0.0f, 2400f);

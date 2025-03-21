@@ -290,6 +290,12 @@
       <Version>3.7.1.189</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TaskThread\TaskThread.csproj">
+      <Project>{56ab0117-b0ca-1b60-b4b6-bb8e51b5135e}</Project>
+      <Name>TaskThread</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

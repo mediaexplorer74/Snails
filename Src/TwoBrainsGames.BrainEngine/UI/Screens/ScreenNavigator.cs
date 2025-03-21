@@ -26,7 +26,7 @@ namespace TwoBrainsGames.BrainEngine.UI.Screens
     private string _currentGroupId;
     private Transition _transition;
     private ScreenNavigator.TransitionType _currentTransitionType;
-    //private Thread _loadingThread;
+    private Thread _loadingThread;
     private bool _isLoadingGroup;
 
     private int LastScreenIdx => this._activeScreens.Count - 1;
@@ -67,19 +67,21 @@ namespace TwoBrainsGames.BrainEngine.UI.Screens
     public void LoadContent()
     {
       if (string.IsNullOrEmpty(BrainGame.Settings.NavigatorContentId))
-        throw new BrainException("Error loading Navigator data. BrainGame.Settings.NavigatorContentId must be initialized");
+        throw new BrainException(
+            "Error loading Navigator data. BrainGame.Settings.NavigatorContentId must be initialized");
+
       if (string.IsNullOrEmpty(BrainGame.Settings.NavigatorContentFolder))
-        throw new BrainException("Error loading Navigator data. BrainGame.Settings.NavigatorContentFolder must be initialized");
+        throw new BrainException(
+            "Error loading Navigator data. BrainGame.Settings.NavigatorContentFolder must be initialized");
+
       this._activeScreens = new List<Screen>();
       this._screens = new List<Screen>();
             try
             {
                 this._screensData = BrainGame.ResourceManager.Load<ScreensData>
                (
-                    //RnD
                     Path.Combine(BrainGame.Settings.NavigatorContentFolder, 
                     BrainGame.Settings.NavigatorContentId),
-                    //ResourceManager.ResourceManagerCacheType.Temporary
                     ResourceManager.ResourceManagerCacheType.Static
                );
             }
@@ -102,12 +104,9 @@ namespace TwoBrainsGames.BrainEngine.UI.Screens
         BrainGame.IsLoading = true;
 
         //RnD
-        //this._loadingThread = new Thread(new ParameterizedThreadStart(this.LoadGroupThread));
+        this._loadingThread = new Thread(new ParameterizedThreadStart(this.LoadGroupThread));
         this._isLoadingGroup = true;
-        //this._loadingThread.Start((object) groupId);
-
-        //Plan B
-        this.LoadGroupData(groupId);
+        this._loadingThread.Start((object) groupId);
       }
       else
         this.LoadGroupData(groupId);
@@ -162,23 +161,36 @@ namespace TwoBrainsGames.BrainEngine.UI.Screens
       Transition openTransition)
     {
       if (closeTransition != null)
-        this._queuedScreenActions.Add(new ScreenNavigator.ScreenAction(ScreenNavigator.ScreenActionType.CloseTransition, screenId, (object) closeTransition, true));
-      this._queuedScreenActions.Add(new ScreenNavigator.ScreenAction(ScreenNavigator.ScreenActionType.GroupLoad, screenId, (object) groupId, true));
-      this._queuedScreenActions.Add(new ScreenNavigator.ScreenAction(ScreenNavigator.ScreenActionType.NavigateTo, screenId, (object) groupId));
+        this._queuedScreenActions.Add(new ScreenNavigator.ScreenAction(
+            ScreenNavigator.ScreenActionType.CloseTransition, screenId, (object) closeTransition, true));
+
+      this._queuedScreenActions.Add(new ScreenNavigator.ScreenAction(
+          ScreenNavigator.ScreenActionType.GroupLoad, screenId, (object) groupId, true));
+
+      this._queuedScreenActions.Add(new ScreenNavigator.ScreenAction(
+          ScreenNavigator.ScreenActionType.NavigateTo, screenId, (object) groupId));
+
       if (openTransition != null)
-        this._queuedScreenActions.Add(new ScreenNavigator.ScreenAction(ScreenNavigator.ScreenActionType.OpenTransition, screenId, (object) openTransition, true));
-      this._queuedScreenActions.Add(new ScreenNavigator.ScreenAction(ScreenNavigator.ScreenActionType.RemoveTransition, screenId, (object) openTransition));
+        this._queuedScreenActions.Add(new ScreenNavigator.ScreenAction(
+            ScreenNavigator.ScreenActionType.OpenTransition, screenId, (object) openTransition, true));
+
+      this._queuedScreenActions.Add(new ScreenNavigator.ScreenAction(
+          ScreenNavigator.ScreenActionType.RemoveTransition, screenId, (object) openTransition));
     }
 
     public void NavigateTo(string groupId, string screenId)
     {
-      this._queuedScreenActions.Add(new ScreenNavigator.ScreenAction(ScreenNavigator.ScreenActionType.GroupLoad, screenId, (object) groupId, true));
-      this._queuedScreenActions.Add(new ScreenNavigator.ScreenAction(ScreenNavigator.ScreenActionType.NavigateTo, screenId, (object) groupId));
+      this._queuedScreenActions.Add(new ScreenNavigator.ScreenAction(
+          ScreenNavigator.ScreenActionType.GroupLoad, screenId, (object) groupId, true));
+
+      this._queuedScreenActions.Add(new ScreenNavigator.ScreenAction(
+          ScreenNavigator.ScreenActionType.NavigateTo, screenId, (object) groupId));
     }
 
     public void PopUp(string screenId)
     {
-      this._queuedScreenActions.Add(new ScreenNavigator.ScreenAction(ScreenNavigator.ScreenActionType.PopUp, screenId, (object) null, true));
+      this._queuedScreenActions.Add(new ScreenNavigator.ScreenAction(
+          ScreenNavigator.ScreenActionType.PopUp, screenId, (object) null, true));
     }
 
     private void ProcessQueuedScreenActions(BrainGameTime gameTime)
@@ -282,16 +294,21 @@ namespace TwoBrainsGames.BrainEngine.UI.Screens
         this.InputController.Update(gameTime);
         BrainGame.GameCursor.Update(gameTime);
       }
+
       if (BrainGame.DisplayHDDAccessIcon && BrainGame.HddAccessIcon != null && BrainGame.HddAccessIcon.Visible)
         BrainGame.HddAccessIcon.Update(gameTime);
+
       if (BrainGame.Settings.UseAchievements && BrainGame.AchievementsManager.HasAchievementsInQueue)
         BrainGame.AchievementsManager.Update(gameTime);
+
       if (this._isLoadingGroup)
       {
         //RnD
-        this._isLoadingGroup = default;//this._loadingThread.IsAlive;
+        this._isLoadingGroup = this._loadingThread.IsAlive;
+
         if (this._isLoadingGroup)
           return;
+
         if (BrainGame.HddAccessIcon != null)
           BrainGame.HddAccessIcon.Visible = false;
         this.ProcessQueuedScreenActions(gameTime);
@@ -386,6 +403,7 @@ namespace TwoBrainsGames.BrainEngine.UI.Screens
     {
       if (!this.DrawEnabled || !this.Enabled)
         return;
+
       BrainGame.Graphics.Clear(ClearOptions.Target, BrainGame.ClearColor, 0.0f, 0);
       if (!this._isLoadingGroup)
       {
@@ -395,22 +413,27 @@ namespace TwoBrainsGames.BrainEngine.UI.Screens
             activeScreen.Draw();
         }
       }
+
       if (this._transition != null)
         this._transition.Draw();
+
       if (BrainGame.DisplayHDDAccessIcon && BrainGame.HddAccessIcon != null && BrainGame.HddAccessIcon.Visible)
       {
         this.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, BrainGame.CurrentSampler, (DepthStencilState) null, (RasterizerState) null, (Effect) BrainGame.RenderEffect);
         BrainGame.HddAccessIcon.Draw(this.SpriteBatch);
         this.SpriteBatch.End();
       }
+
       if (BrainGame.Settings.UseAchievements && BrainGame.AchievementsManager.HasAchievementsInQueue)
       {
         this.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, BrainGame.CurrentSampler, (DepthStencilState) null, (RasterizerState) null, (Effect) BrainGame.RenderEffect);
         BrainGame.AchievementsManager.Draw(this.SpriteBatch);
         this.SpriteBatch.End();
       }
+
       if (!BrainGame.GameCursor.Visible)
         return;
+
       BrainGame.GameCursor.Draw(this.SpriteBatch);
     }
 

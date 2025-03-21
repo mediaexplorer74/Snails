@@ -395,6 +395,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TaskThread\TaskThread.csproj">
+      <Project>{56ab0117-b0ca-1b60-b4b6-bb8e51b5135e}</Project>
+      <Name>TaskThread</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TwoBrainsGames.BrainEngine\TwoBrainsGames.BrainEngine.csproj">
       <Project>{45a7ce50-88bb-4479-aa89-567b638a58af}</Project>
       <Name>TwoBrainsGames.BrainEngine</Name>

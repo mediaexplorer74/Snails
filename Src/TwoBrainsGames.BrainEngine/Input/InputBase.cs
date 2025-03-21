@@ -223,23 +223,29 @@ namespace TwoBrainsGames.BrainEngine.Input
     {
       this.MotionPointerDown = true;
       this.PreviousMotionPointerDown = true;
-      if (BrainGame.Settings.UseMouse && InputBase._mouse == null)
+
+      if (true)//(BrainGame.Settings.UseMouse && InputBase._mouse == null)
       {
+                BrainGame.Settings.UseMouse = true; // RnD (TEMP)
         InputBase._mouse = new MouseInput();
         BrainGame.AddComponent((GameComponent) InputBase._mouse);
       }
+
       if (true)// (BrainGame.Settings.UseKeyboard && InputBase._keyboard == null)
       {
         InputBase._keyboard = new KeyboardInput();
         BrainGame.AddComponent((GameComponent) InputBase._keyboard);
       }
+
       if (BrainGame.Settings.UseGamepad && InputBase._gamepad == null)
       {
         InputBase._gamepad = new GamePadInput(BrainGame.CurrentControllerIndex);
         BrainGame.AddComponent((GameComponent) InputBase._gamepad);
       }
+
       if (!BrainGame.Settings.UseTouch || InputBase._touch != null)
         return;
+
       InputBase._touch = new TouchInput();
       BrainGame.AddComponent((GameComponent) InputBase._touch);
       this.MotionPointerDown = false;

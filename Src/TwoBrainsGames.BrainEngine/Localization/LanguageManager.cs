@@ -64,6 +64,8 @@ namespace TwoBrainsGames.BrainEngine.Localization
       if (string.IsNullOrEmpty(text))
         return text;
       string str = (string) null;
+      
+      //RnD
       if (BrainGame.Settings.UseMouse)
         str = "INPUT_MOUSE";
       if (BrainGame.Settings.UseTouch)

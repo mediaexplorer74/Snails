@@ -13,12 +13,12 @@ namespace TwoBrainsGames.Snails
 {
   internal class AsyncProcessor
   {
-    //private Thread _processorThread;
+    private Thread _processorThread;
 
     public List<IAsyncOperation> Operations { get; private set; }
 
     //RnD
-    public bool IsLoading => false;//this._processorThread != null && this._processorThread.IsAlive;
+    public bool IsLoading => this._processorThread != null && this._processorThread.IsAlive;
 
     public Exception ExceptionThrown { get; private set; }
 
@@ -42,8 +42,8 @@ namespace TwoBrainsGames.Snails
     {
       this.ExceptionThrown = (Exception) null;
       //RnD
-      //this._processorThread = new Thread(new ParameterizedThreadStart(this.ProcessorThreadEntryPoint));
-      //this._processorThread.Start((object) this);
+      this._processorThread = new Thread(new ParameterizedThreadStart(this.ProcessorThreadEntryPoint));
+      this._processorThread.Start((object) this);
     }
   }
 }

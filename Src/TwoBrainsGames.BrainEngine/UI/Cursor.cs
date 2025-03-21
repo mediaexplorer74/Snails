@@ -34,8 +34,11 @@ namespace TwoBrainsGames.BrainEngine.UI
     {
       if (BrainGame.Settings.UseTouch)
         this.Position = BrainGame.ScreenNavigator.InputController.MotionPosition;
-      if (!BrainGame.Settings.UseMouse || !(BrainGame.ScreenNavigator.ActiveScreen is UIScreen) || ((UIScreen) BrainGame.ScreenNavigator.ActiveScreen).CursorMode == CursorModes.SnapToControl)
+
+      if (/*!BrainGame.Settings.UseMouse ||*/ !(BrainGame.ScreenNavigator.ActiveScreen is UIScreen) 
+                || ((UIScreen) BrainGame.ScreenNavigator.ActiveScreen).CursorMode == CursorModes.SnapToControl)
         return;
+
       this.Position = BrainGame.ScreenNavigator.InputController.MotionPosition;
     }
 

@@ -71,8 +71,7 @@ namespace TwoBrainsGames.Snails
     protected override void LoadSettings()
     {
       this._settings = (BrainSettings) new GameSettings();
-      //RnD
-      this._settings.Load("game-settings");//this._settings.Load("game-settings");
+      this._settings.Load("game-settings");
     }
 
     protected override void OnInitialize()
@@ -91,9 +90,13 @@ namespace TwoBrainsGames.Snails
         this._graphicsManager.PreferredBackBufferWidth = BrainGame.PresentationNativeScreenWidth;
         this._graphicsManager.PreferredBackBufferHeight = BrainGame.PresentationNativeScreenHeight;
         this._graphicsManager.PreferredDepthStencilFormat = DepthFormat.Depth24Stencil8;
-        this._graphicsManager.IsFullScreen = Game1.GameSettings.IsFullScreen;
-        if (Game1.ProfilesManager.CurrentProfile != null && Game1.GameSettings.AllowToggleFullScreen)
-          this._graphicsManager.IsFullScreen = Game1.ProfilesManager.CurrentProfile.Fullscreen;
+        
+        //RnD
+        this._graphicsManager.IsFullScreen = false;//Game1.GameSettings.IsFullScreen;
+        
+        //if (Game1.ProfilesManager.CurrentProfile != null && Game1.GameSettings.AllowToggleFullScreen)
+        //  this._graphicsManager.IsFullScreen = Game1.ProfilesManager.CurrentProfile.Fullscreen;
+        
         this._graphicsManager.SynchronizeWithVerticalRetrace = Game1.GameSettings.UseVSync;
         this._graphicsManager.ApplyChanges();
         this.SetupRenderViewport();
@@ -119,7 +122,8 @@ namespace TwoBrainsGames.Snails
           BrainGame.GameCursor.LoadCursor("spriteset/player-cursor/SaltCursorForbidden", 4);
           BrainGame.GameCursor.LoadCursor("spriteset/player-cursor/OutOfStockCursor", 5);
           BrainGame.GameCursor.LoadCursor("spriteset/player-cursor/PanCursor", 6);
-          BrainGame.GameCursor.Visible = false;
+          //RnD
+          BrainGame.GameCursor.Visible = true;//false;
           BrainGame.GameCursor.SetCursor(0);
         }
         BrainGame.ScreenNavigator.NavigateTo(Game1.GameSettings.StartupScreenGroup, Game1.GameSettings.StartupScreen);
@@ -144,8 +148,10 @@ namespace TwoBrainsGames.Snails
       this.UpdateGamePlayMode();
       if (BrainGame.ScreenNavigator == null || BrainGame.ScreenNavigator.GlobalCache.Get<ScreenType>("CURRENT_SCREEN", ScreenType.None) != ScreenType.Purchase)
         return;
-      BrainGame.ScreenNavigator.GlobalCache.Set("MAIN_SCREEN_STARTUP_MODE", (object) MainMenuScreen.StartupType.TitleAndMenuVisible);
-      BrainGame.ScreenNavigator.NavigateTo("MainMenu", ScreenType.MainMenu.ToString(), (Transition) null, (Transition) null);
+      BrainGame.ScreenNavigator.GlobalCache.Set("MAIN_SCREEN_STARTUP_MODE", 
+          (object) MainMenuScreen.StartupType.TitleAndMenuVisible);
+      BrainGame.ScreenNavigator.NavigateTo("MainMenu", ScreenType.MainMenu.ToString(), 
+          (Transition) null, (Transition) null);
     }
 
     private void SnailsGame_OnLanguageChanged(object sender, EventArgs e)

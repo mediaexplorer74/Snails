@@ -14,8 +14,7 @@ using TwoBrainsGames.Snails.Stages;
 
 namespace TwoBrainsGames.Snails.Screens.Transitions
 {
-    // RnD
-    internal partial class SnailsBlurTransition(UIScreen screen, bool isGray) :
+   internal partial class SnailsBlurTransition(UIScreen screen, bool isGray) :
         BlurTransition(screen, isGray, 6, 10.0),
         ISnailsPauseTransition
     {
